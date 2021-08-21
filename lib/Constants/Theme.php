@@ -7,7 +7,7 @@ class Theme {
     //Instantiate our global application constants
     public const SUPPORTS = array(
         'html5',
-        'title_tag'
+        'menus'
     );
     
     //Define our template directory
@@ -25,4 +25,7 @@ class Theme {
         'contact',
         'blog'
     );
+    
+    //Define our default menu
+    public const DEFAULT_MENU_ID = 10;
 }

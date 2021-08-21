@@ -2,11 +2,16 @@
 //Namespace our code for our application
 namespace TDW\Theme;
 
-//Include our PostTypes namespace
+//Include our Constants namespace
 use \TDW\Constants as Constants;
+
+//Include our theme Menu namespace
+use \TDW\Theme\Menu as Menu;
 
 //Instantiate our class
 class Template {
+    public $menus = null;
+    
     /**********************************************************************************
      * Initial setup of our theme
      * ********************************************************************************/
@@ -16,10 +21,17 @@ class Template {
         
         //Add our scripts and styles
         $this->wp_enqueue_scripts();
+        
+        //Instantiate our menus class
+        $this->menus = new Menu();
     }
     
     /**********************************************************************************
      * Sets up our templates
+     * Note: I originally had wanted to search the templates directory so
+     * the TEMPLATE_PAGES array would be dynamic but I felt this would cause
+     * too much CPU and disk activity since it would be checking every time a template
+     * loads. A more efficient method of this feature may be available down the road
      * ********************************************************************************/
     public function template_include(){
         //Checks to see ifwe should redirect the template to our subdirectory
@@ -33,7 +45,6 @@ class Template {
             //that we want to override
             if (in_array($basename, Constants\Theme::TEMPLATE_PAGES)){
                 $template = get_stylesheet_directory().Constants\Theme::TEMPLATE_DIR.$basename.'.php';
-                error_log('New Template: '.$template);
             }
             
             //Make sure we return the template, as not returning it will yield
@@ -48,8 +59,12 @@ class Template {
     public function wp_enqueue_scripts(){
         //Setup our after_setup_theme hook
         add_action('wp_enqueue_scripts', function(){
-            //Enqueue our styles
-            wp_enqueue_style('bulma', get_stylesheet_uri().'/vendor/chucksplayground/bulma-css/bulma.css');
+            //Enqueue our theme styles
+            wp_enqueue_style('tdw', get_stylesheet_directory_uri().'/assets/css/tdw.css');
+            
+            //Enqueue our framework styles
+            //If we are not in dev mode, loads a minified version if not in dev mode
+            wp_enqueue_style('bulma', get_stylesheet_uri().'/vendor/chucksplayground/bulma-css/bulma'.(Constants\App::IS_DEV_MODE ? '' : '.min').'.css');
         });
     }
 }
