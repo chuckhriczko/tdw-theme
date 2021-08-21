@@ -1,0 +1,20 @@
+{
+    "name": "tdw/theme",
+    "description": "WordPress theme for The Developing Web",
+    "type": "wordpress-theme",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "TDW\\": "lib/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Chuck Hriczko",
+            "email": "chuckhriczko@gmail.com"
+        }
+    ],
+    "require": {
+        "chucksplayground/bulma-css": "dev-main"
+    }
+}
